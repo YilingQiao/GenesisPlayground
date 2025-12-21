@@ -171,7 +171,7 @@ class KeyboardWrapper(BaseEnvWrapper):
 
     def reset(self) -> tuple[torch.Tensor, dict[str, Any]]:
         """Reset the environment."""
-        self._env.reset_idx(torch.IntTensor([0]))
+        self._env.reset_idx(torch.tensor([0], dtype=torch.int32))
         obs = self._convert_observation_to_dict()
         return torch.tensor([]), obs
 
@@ -462,7 +462,7 @@ class KeyboardWrapper(BaseEnvWrapper):
 
             print(f"🎯 Replaying {len(trajectory_data)} steps...")
 
-            self._env.reset_idx(torch.IntTensor([0]))
+            self._env.reset_idx(torch.tensor([0], dtype=torch.int32))
             print("🔄 Environment reset to initial state")
 
             # Replay each step

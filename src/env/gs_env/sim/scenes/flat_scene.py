@@ -35,7 +35,9 @@ class FlatScene(BaseSimScene):
             sf_options=args.sf_options,
             vis_options=args.vis_options,
             viewer_options=args.viewer_options,
-            show_FPS=show_fps,
+            profiling_options=gs.options.ProfilingOptions(
+                show_FPS=show_fps,
+            ),
             show_viewer=show_viewer,
             # renderer=_renderer,
         )
@@ -50,7 +52,7 @@ class FlatScene(BaseSimScene):
         self._center_envs_at_origin = args.center_envs_at_origin
         self._compile_kernels = args.compile_kernels
 
-    def reset(self, envs_idx: torch.IntTensor) -> None:
+    def reset(self, envs_idx: torch.Tensor) -> None:
         self._scene.reset(envs_idx=envs_idx)
 
     def __getattr__(self, item: str) -> Any:

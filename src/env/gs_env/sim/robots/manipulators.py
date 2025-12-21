@@ -1,8 +1,9 @@
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
 
 import genesis as gs
 import torch
-from genesis.engine.entities.rigid_entity import RigidEntity, RigidLink
 from gymnasium import spaces
 
 from gs_env.common.bases.base_robot import BaseGymRobot
@@ -13,6 +14,9 @@ from gs_env.sim.robots.config.schema import (
     JointPosAction,
     ManipulatorRobotArgs,
 )
+
+if TYPE_CHECKING:
+    from genesis.engine.entities.rigid_entity import RigidLink
 
 
 class ManipulatorBase(BaseGymRobot):
@@ -44,7 +48,7 @@ class ManipulatorBase(BaseGymRobot):
             visualize_contact=args.visualize_contact,
             vis_mode=args.vis_mode,
         )
-        assert isinstance(robot_entity, RigidEntity), (
+        assert isinstance(robot_entity, gs.engine.entities.rigid_entity.RigidEntity), (
             "Robot entity must be an instance of gs.Entity"
         )
         self._robot_entity = robot_entity
@@ -115,12 +119,12 @@ class ManipulatorBase(BaseGymRobot):
             CtrlType.EE_POSE_REL.value: self._apply_ee_pose_rel,
         }
 
-    def reset(self, envs_idx: torch.IntTensor | None = None) -> None:
+    def reset(self, envs_idx: torch.Tensor | None = None) -> None:
         if envs_idx is None or len(envs_idx) == 0:
             return
         self.go_home(envs_idx)
 
-    def go_home(self, envs_idx: torch.IntTensor) -> None:
+    def go_home(self, envs_idx: torch.Tensor) -> None:
         default_joint_angles = torch.tensor(
             self._default_joint_angles, dtype=torch.float32, device=self._device
         ).repeat(len(envs_idx), 1)

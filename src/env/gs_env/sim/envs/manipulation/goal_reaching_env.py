@@ -97,7 +97,7 @@ class GoalReachingEnv(BaseEnv):
         )
         self.action_buf = torch.zeros((self.num_envs, self.action_dim), device=self._device)
 
-    def reset_idx(self, envs_idx: torch.IntTensor) -> None:
+    def reset_idx(self, envs_idx: torch.Tensor) -> None:
         if len(envs_idx) == 0:
             return
         self._robot.reset(envs_idx=envs_idx)

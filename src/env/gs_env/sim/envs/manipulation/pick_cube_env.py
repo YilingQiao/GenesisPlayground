@@ -128,7 +128,7 @@ class PickCubeEnv(BaseEnv):
 
             # Handle special commands
             if hasattr(action, "reset_scene") and action.reset_scene:
-                self.reset_idx(torch.IntTensor([0]))
+                self.reset_idx(torch.tensor([0], dtype=torch.int32))
             elif hasattr(action, "quit_teleop") and action.quit_teleop:
                 print("Quit command received from teleop")
 
